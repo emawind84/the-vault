@@ -20,10 +20,10 @@
           <li><a href="{% url 'manager:index' %}">home</a></li>
           {% if user.is_authenticated %}
           <li><a href="{% url 'manager:secrets' %}">secrets</a></li>
-          <li><a href="{% url 'users:logout' %}">log out</a></li>
           {% if perms.auth.add_user %}
           <li><a href="{% url 'users:register' %}">register</a></li>
           {% endif %}
+          <li><a href="{% url 'users:logout' %}">log out</a></li>
           {% else %}
           <li><a href="{% url 'users:login' %}">log in</a></li>
           {% endif %}
@@ -35,10 +35,10 @@
       <li><a href="{% url 'manager:index' %}">home</a></li>
       {% if user.is_authenticated %}
       <li><a href="{% url 'manager:secrets' %}">secrets</a></li>
-      <li><a href="{% url 'users:logout' %}">log out</a></li>
       {% if perms.auth.add_user %}
       <li><a href="{% url 'users:register' %}">register</a></li>
       {% endif %}
+      <li><a href="{% url 'users:logout' %}">log out</a></li>
       {% else %}
       <li><a href="{% url 'users:login' %}">log in</a></li>
       {% endif %}
