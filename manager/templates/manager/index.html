@@ -1,0 +1,14 @@
+{% extends "manager/base.html" %}
+{% load material_form %}
+
+{% block content %}
+<div class="section">
+    <p class="flow-text center">Hello, {{user.username}}.</p>
+</div>
+<div class="section center">
+    <a href="{% url 'users:edit_user' %}" class="waves-effect waves-teal btn-flat">My information</a>
+    {% if user.password %}
+    <a href="{% url 'users:password_change' %}" class="waves-effect waves-teal btn-flat">Change my password</a>
+    {% endif %}
+</div>
+{% endblock content %}
