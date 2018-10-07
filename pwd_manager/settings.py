@@ -20,12 +20,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ''
+# You should create a new key with django.core.management.utils.get_random_secret_key()
+SECRET_KEY = 't(1qwg0-^anab--n@q07u&x87!e)147-!nvh3r#m!s-b&-4uh+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
 
 # Application definition
@@ -128,6 +129,10 @@ STATIC_URL = '/static/'
 LOGIN_URL = 'users:login'
 
 LOGIN_REDIRECT_URL = 'manager:index'
+
+VAULT_HOST = os.environ.get('VAULT_HOST', 'http://127.0.0.1:8200')
+
+VAULT_TOKEN = os.environ.get('VAULT_TOKEN')
 
 try:
     from .local_settings import *

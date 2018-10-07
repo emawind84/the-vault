@@ -9,4 +9,5 @@ export PATH="$SCRIPT_BASE_PATH/env/bin:$SCRIPT_BASE_PATH:$PATH"
 
 cd $SCRIPT_BASE_PATH
 
-python manage.py runserver 0.0.0.0:8091
+SERVER_ADDRPORT="${SERVER_ADDRPORT:-0.0.0.0:8091}"
+python manage.py runserver $SERVER_ADDRPORT
