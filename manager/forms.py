@@ -6,7 +6,7 @@ class SecretForm(forms.ModelForm):
     username = forms.CharField(required=False)
     password = forms.CharField(widget=forms.PasswordInput, required=False)
     notes = forms.CharField(widget=forms.Textarea(attrs={'cols': 80}), required=False)
-    url = forms.URLField(required=False, label="URL")
+    url = forms.URLField(required=False, label="Website")
     confirm_password=forms.CharField(widget=forms.PasswordInput(), required=False, label="Repeat password")
     
     field_order = ['label', 'category', 'username', 'password', 'confirm_password', 'url', 'project', 'config', 'notes']

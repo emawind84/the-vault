@@ -2,6 +2,17 @@
 <html>
   <head>
     <title>{% block title %}The Vault{% endblock %}</title>
+    {% block head_favicon %}
+    {% endblock head_favicon %}
+    {% block head_meta_charset %}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    {% endblock head_meta_charset %}
+    {% block head_meta_contentlanguage %}
+    <meta http-equiv="Content-Language" value="en-US" />
+    {% endblock head_meta_contentlanguage %}
+    {% block head_meta_viewport %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% endblock head_meta_viewport %}
 
     {% include 'material/includes/material_css.html' %}
     <script src="{% static 'material/js/jquery.js' %}"></script>
@@ -45,14 +56,15 @@
     </ul>
     <div class="container">
       {% block content %}{% endblock content %}
-      <!-- Page Content goes here -->
     </div>
 
+    {% block sidenav_javascript %}
     <script>
     $(document).ready(function(){
       $('.sidenav').sidenav();
     });
     </script>
+    {% endblock sidenav_javascript %}
   </body>
 </html>
 
