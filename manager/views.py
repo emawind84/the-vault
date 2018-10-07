@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.debug import sensitive_variables
+from django.views.decorators.debug import sensitive_variables, sensitive_post_parameters
 from datetime import datetime
 from .models import Secret
 from .forms import SecretForm
@@ -16,19 +16,23 @@ def index(request):
 
 @login_required
 def secrets(request):
+    secrets = Secret.objects.filter(creator=request.user).order_by('label')
     data = request.GET
-    secrets = Secret.objects.order_by('label')
     if data.get('search', '') != '':
         secrets = secrets.filter(label__icontains=data.get('search'))
 
     context = {'secrets': secrets, 'form': data}
-    return render(request, 'manager/secrets.html', context)
+    return render(request, 'manager/secrets-collection.html', context)
 
 @sensitive_variables('secret')
 @login_required
 def secret(request, secret_id):
     secret = get_object_or_404(Secret, id=secret_id)
-    vault_data = vault_client.read(secret.label)
+    # check for private vault
+    if secret.creator != request.user:
+        raise Http404
+
+    vault_data = vault_client.read('{0}/{1}'.format(request.user.pk, secret.label))
     if vault_data != None:
         secret.password = vault_data['data'].get('password', None)
         secret.config = vault_data['data'].get('config', None)
@@ -37,6 +41,7 @@ def secret(request, secret_id):
     return render(request, 'manager/secret.html', context)
 
 @sensitive_variables('new_secret')
+@sensitive_post_parameters()
 @login_required
 def new_secret(request):
     if request.method != 'POST':
@@ -45,7 +50,7 @@ def new_secret(request):
         form = SecretForm(data=request.POST)
         if form.is_valid():
             new_secret = form.save(commit=False)
-            vault_client.write(new_secret.label, 
+            vault_client.write('{0}/{1}'.format(request.user.pk, new_secret.label), 
                 password=new_secret.password, 
                 config=new_secret.config)
             
@@ -59,11 +64,16 @@ def new_secret(request):
     return render(request, 'manager/new_secret.html', context)
 
 @sensitive_variables('secret')
+@sensitive_post_parameters()
 @login_required
 def edit_secret(request, secret_id):
     """Edit an existing secret."""
     secret = get_object_or_404(Secret, id=secret_id)
-    vault_data = vault_client.read(secret.label)
+    # check for private vault
+    if secret.creator != request.user:
+        raise Http404
+
+    vault_data = vault_client.read('{0}/{1}'.format(request.user.pk, secret.label))
     if vault_data != None:
         secret.password = vault_data['data'].get('password', None)
         secret.config = vault_data['data'].get('config', None)
@@ -74,7 +84,7 @@ def edit_secret(request, secret_id):
         form = SecretForm(instance=secret, data=request.POST)
         if form.is_valid():
             secret = form.save(commit=False)
-            vault_client.write(secret.label, 
+            vault_client.write('{0}/{1}'.format(request.user.pk, secret.label), 
                 password=secret.password, 
                 config=secret.config)
             
@@ -91,8 +101,12 @@ def edit_secret(request, secret_id):
 @login_required
 def delete_secret(request, secret_id):
     secret = get_object_or_404(Secret, id=secret_id)
+    # check for private vault
+    if secret.creator != request.user:
+        raise Http404
+
     if request.method == "POST":
-        vault_client.delete('secret/' + secret.label)
+        vault_client.delete('{0}/{1}'.format(request.user.pk, secret.label))
         secret.delete()
         return HttpResponseRedirect(reverse('manager:secrets'))
     

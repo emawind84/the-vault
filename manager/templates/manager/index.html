@@ -11,4 +11,7 @@
     <a href="{% url 'users:password_change' %}" class="waves-effect waves-teal btn-flat">Change my password</a>
     {% endif %}
 </div>
+<div class="section center">
+  <a class="btn-floating btn-large waves-effect waves-light" href="{% url 'manager:new_secret' %}" ><i class="material-icons">add</i></a>
+</div>
 {% endblock content %}

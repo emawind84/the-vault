@@ -25,7 +25,9 @@
   <body>
     <nav>
       <div class="nav-wrapper">
+        {% block nav-title %}
         <a href="{% url 'manager:index' %}" class="brand-logo">The Vault</a>
+        {% endblock %}
         <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           <li><a href="{% url 'manager:index' %}">home</a></li>
@@ -39,6 +41,7 @@
           <li><a href="{% url 'users:login' %}">log in</a></li>
           {% endif %}
         </ul>
+        {% block nav-extra-content %}{% endblock %}
       </div>
     </nav>
 

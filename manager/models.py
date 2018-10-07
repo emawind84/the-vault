@@ -7,7 +7,8 @@ class Secret(models.Model):
     SERVERINFO='SERVER'
     CATEGORIES = (('DB', 'DB'), ('SERVER', 'Server'), ('GENERAL', 'General'))
     
-    label = models.CharField(max_length=200, unique=True)
+    #label = models.CharField(max_length=200, unique=True)
+    label = models.CharField(max_length=200)
     username = models.CharField(max_length=200, null=True, blank=True)
     url = models.CharField(max_length=200, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
@@ -18,6 +19,7 @@ class Secret(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     date_changed = models.DateTimeField(auto_now_add=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    config2  = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.label
