@@ -42,13 +42,28 @@ Before starting the application we need to set some variables, so we create a ne
 
 The following variables should be set:
 
-VAULT_HOST
-VAULT_TOKEN
-
-
-Before running the application in production, we should create a new `SECRET_KEY`, for security reason,
-we can use the function `django.core.management.utils.get_random_secret_key()`.
+    VAULT_HOST
+    VAULT_TOKEN
 
 Now we are ready to run the application:
 
 `./pwd-manager-auto.sh`
+
+## Production
+
+Before running the application in production, we should create a new `SECRET_KEY`, for security reason,
+we can use the function `django.core.management.utils.get_random_secret_key()`.
+
+The variable `DEBUG` should be set to `False`.
+
+Also we need to collect the static files since django will refuse to serve static files with `DEBUG=False`; we will use the command `collectstatic` provided by django:
+
+`python manage.py collectstatic --clear`
+
+A new folder `static` should be created under the project folder.
+
+In the web server configuration we need to add the static location in order to serve those files:
+
+    location /static/ {
+        root /media/usb2/pwd_manager;
+    }
