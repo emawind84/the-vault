@@ -13,9 +13,9 @@ cd $SCRIPT_BASE_PATH
 source $PYTHON_ENV/bin/activate
 
 python manage.py migrate
-python manage.py collectstatic
 
 if [ $# -eq 0 ]; then
+    python manage.py collectstatic --noinput
     SERVER_ADDRPORT="${SERVER_ADDRPORT:-0.0.0.0:8091}"
     exec python manage.py runserver $SERVER_ADDRPORT
 fi
