@@ -1,0 +1,8 @@
+env/
+vault-config/
+.env
+docker-compose*
+README.md
+local_settings.py
+ldap_settings.py
+data/
