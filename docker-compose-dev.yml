@@ -1,0 +1,32 @@
+version: "3"
+
+services: 
+
+  manager:
+    build: .
+    environment: 
+    - VAULT_HOST=http://vault:8200
+    - VAULT_TOKEN=myroot
+    - ALLOWED_HOSTS
+    depends_on:
+    - vault
+    ports:
+    - "$MANAGER_LISTEN_PORT:8091"
+    volumes: 
+    - "./local_settings.py:/opt/pwd-manager/pwd_manager/local_settings.py"
+    - "./data:/opt/pwd-manager/data"
+
+  vault:
+    image: vault
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    cap_add:
+    - IPC_LOCK
+    environment: 
+    - "VAULT_DEV_ROOT_TOKEN_ID=myroot"
+    - "VAULT_ADDR=http://0.0.0.0:8200"
