@@ -7,8 +7,7 @@ class Secret(models.Model):
     SERVERINFO='SERVER'
     CATEGORIES = (('DB', 'DB'), ('SERVER', 'Server'), ('GENERAL', 'General'))
     
-    #label = models.CharField(max_length=200, unique=True)
-    label = models.CharField(max_length=200)
+    label = models.CharField(max_length=200, unique=True)
     username = models.CharField(max_length=200, null=True, blank=True)
     url = models.CharField(max_length=200, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
