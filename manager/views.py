@@ -16,7 +16,7 @@ def index(request):
 
 @login_required
 def secrets(request):
-    secrets = Secret.objects.order_by('label')
+    secrets = Secret.objects.filter(creator=request.user).order_by('label')
     data = request.GET
     if data.get('search', '') != '':
         secrets = secrets.filter(label__icontains=data.get('search'))
@@ -28,8 +28,11 @@ def secrets(request):
 @login_required
 def secret(request, secret_id):
     secret = get_object_or_404(Secret, id=secret_id)
+    # check for private vault
+    if secret.creator != request.user:
+        raise Http404
 
-    vault_data = vault_client.read('{0}'.format(secret.label))
+    vault_data = vault_client.read('{0}/{1}'.format(request.user.pk, secret.label))
     if vault_data != None:
         secret.password = vault_data['data'].get('password', None)
         secret.config = vault_data['data'].get('config', None)
@@ -47,7 +50,7 @@ def new_secret(request):
         form = SecretForm(data=request.POST)
         if form.is_valid():
             new_secret = form.save(commit=False)
-            vault_client.write('{0}'.format(new_secret.label), 
+            vault_client.write('{0}/{1}'.format(request.user.pk, new_secret.label), 
                 password=new_secret.password, 
                 config=new_secret.config)
             
@@ -66,8 +69,11 @@ def new_secret(request):
 def edit_secret(request, secret_id):
     """Edit an existing secret."""
     secret = get_object_or_404(Secret, id=secret_id)
+    # check for private vault
+    if secret.creator != request.user:
+        raise Http404
 
-    vault_data = vault_client.read('{0}'.format(secret.label))
+    vault_data = vault_client.read('{0}/{1}'.format(request.user.pk, secret.label))
     if vault_data != None:
         secret.password = vault_data['data'].get('password', None)
         secret.config = vault_data['data'].get('config', None)
@@ -78,7 +84,7 @@ def edit_secret(request, secret_id):
         form = SecretForm(instance=secret, data=request.POST)
         if form.is_valid():
             secret = form.save(commit=False)
-            vault_client.write('{0}'.format(secret.label), 
+            vault_client.write('{0}/{1}'.format(request.user.pk, secret.label), 
                 password=secret.password, 
                 config=secret.config)
             
@@ -95,9 +101,12 @@ def edit_secret(request, secret_id):
 @login_required
 def delete_secret(request, secret_id):
     secret = get_object_or_404(Secret, id=secret_id)
+    # check for private vault
+    if secret.creator != request.user:
+        raise Http404
 
     if request.method == "POST":
-        vault_client.delete('{0}'.format(secret.label))
+        vault_client.delete('{0}/{1}'.format(request.user.pk, secret.label))
         secret.delete()
         return HttpResponseRedirect(reverse('manager:secrets'))
     
