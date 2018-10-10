@@ -3,21 +3,20 @@ version: "3"
 services: 
 
   manager:
-    build: .
+    image: sangah/pwd-manager
     environment: 
     - VAULT_HOST=http://vault:8200
     - VAULT_TOKEN
     - ALLOWED_HOSTS
     depends_on:
     - vault
-    ports:
-    - "$MANAGER_LISTEN_PORT:8091"
     volumes: 
+    - "web-static:/opt/pwd-manager/static"
     - "./local_settings.py:/opt/pwd-manager/pwd_manager/local_settings.py"
     - "./data/manager:/opt/pwd-manager/data"
 
   vault:
-    image: vault
+    image: vault:${VAULT_VERSION}
     ulimits:
       memlock:
         soft: -1
@@ -32,15 +31,30 @@ services:
     - "CONSUL_HOST=consul"
     depends_on:
     - consul
+    ports:
+    - "8200:8200"
     volumes: 
     - ./vault-config:/vault/config
-    - ./data/vault:/vault/file
     command: vault server -config /vault/config/config.hcl
 
   consul:
-    image: consul
+    image: consul:${CONSUL_VERSION}
     volumes:
-    - ./data/consul:/consul/data
+    - $VAULT_DATA_FOLDER:/consul/data
     command: consul agent -server -bootstrap-expect=1 -data-dir=/consul/data --client=0.0.0.0
     environment: 
     - CONSUL_BIND_INTERFACE=eth0
+
+  nginx:
+    build: nginx
+    #network_mode: "service:manager"
+    ports:
+    - "$MANAGER_LISTEN_PORT:80"
+    depends_on: 
+    - manager
+    volumes: 
+    - "web-static:/var/www/static"
+
+volumes: 
+  web-static:
+  vault-data:
