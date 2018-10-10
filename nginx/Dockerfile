@@ -1,0 +1,2 @@
+FROM sangah/nginx-base
+
