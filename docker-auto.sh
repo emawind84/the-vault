@@ -113,6 +113,12 @@ elif [ "$1" == "unseal" ]; then
     shift
     docker-compose $CONF_ARG exec vault vault operator unseal
     exit 0
+
+elif [ "$1" == "flush" ]; then
+    shift
+    docker-compose $CONF_ARG exec manager pwd-manager-auto.sh flush
+    exit 0
+
 fi
 
 docker-compose $CONF_ARG "$@"

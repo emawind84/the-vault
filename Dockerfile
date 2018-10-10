@@ -7,7 +7,7 @@ ENV PYTHON_ENV=/opt/python \
     MANAGER_PATH=/opt/pwd-manager \
     ALLOWED_HOSTS=0.0.0.0
 
-ENV PATH=$PATH:$PYTHON_ENV/bin
+ENV PATH=$PATH:$PYTHON_ENV/bin:$MANAGER_PATH
 
 RUN set -e && \
     apk add --no-cache \
@@ -30,7 +30,7 @@ RUN set -e && \
 
 EXPOSE 8091
 
-VOLUME [ "$MANAGER_PATH/data" ]
+VOLUME [ "$MANAGER_PATH/data", "$MANAGER_PATH/static" ]
 
 RUN chmod +x $MANAGER_PATH/pwd-manager-auto.sh
 #CMD [ "pwd-manager-auto.sh" ]

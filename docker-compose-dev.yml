@@ -14,10 +14,10 @@ services:
     - "$MANAGER_LISTEN_PORT:8091"
     volumes: 
     - "./local_settings.py:/opt/pwd-manager/pwd_manager/local_settings.py"
-    - "./data:/opt/pwd-manager/data"
-
+    - "./data/manager:/opt/pwd-manager/data"
+  
   vault:
-    image: vault
+    image: vault:${VAULT_VERSION}
     ulimits:
       memlock:
         soft: -1
@@ -27,6 +27,8 @@ services:
         hard: 65536
     cap_add:
     - IPC_LOCK
+    ports:
+    - "8200:8200"
     environment: 
     - "VAULT_DEV_ROOT_TOKEN_ID=myroot"
     - "VAULT_ADDR=http://0.0.0.0:8200"
