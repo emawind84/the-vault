@@ -104,14 +104,19 @@ elif [ "$1" == "logs" ]; then
     docker-compose $CONF_ARG logs -f --tail 200 "$@"
     exit 0
 
-elif [ "$1" == "init" ]; then
+elif [ "$1" == "vault-init" ]; then
     shift
     docker-compose $CONF_ARG exec vault vault operator init
     exit 0
 
-elif [ "$1" == "unseal" ]; then
+elif [ "$1" == "vault-unseal" ]; then
     shift
     docker-compose $CONF_ARG exec vault vault operator unseal
+    exit 0
+
+elif [ "$1" == "vault-login" ]; then
+    shift
+    docker-compose $CONF_ARG exec vault vault login
     exit 0
 
 elif [ "$1" == "flush" ]; then

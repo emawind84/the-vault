@@ -7,3 +7,5 @@ local_settings.py
 ldap_settings.py
 data/
 nginx/
+.vscode/
+.git/

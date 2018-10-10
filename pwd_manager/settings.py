@@ -139,5 +139,6 @@ VAULT_TOKEN = os.environ.get('VAULT_TOKEN')
 try:
     from .local_settings import *
     from .ldap_settings import *
-except ImportError:
+except ImportError as err:
+    print("OS error: {0}".format(err))
     pass

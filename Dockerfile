@@ -13,6 +13,8 @@ RUN set -e && \
     apk add --no-cache \
         bash \
         python3 \
+        #libldap \
+        openldap-dev \
         py-pip && \
     pip install --upgrade pip && \
     pip install virtualenv
@@ -20,8 +22,7 @@ RUN set -e && \
 RUN set -e && \
     apk add --no-cache --virtual .build-deps \
         build-base \
-        python3-dev \
-        openldap-dev && \
+        python3-dev && \
     virtualenv $PYTHON_ENV --python=python3 && \
     . $PYTHON_ENV/bin/activate && \
     pip install -r requirements.txt && \

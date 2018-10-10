@@ -1,0 +1,28 @@
+version: "3"
+
+services: 
+
+  manager:
+    build: .
+    #image: sangah/the-vault
+    environment: 
+    - VAULT_HOST
+    - VAULT_TOKEN
+    - ALLOWED_HOSTS
+    depends_on:
+    - vault
+    ports:
+    - "$MANAGER_LISTEN_PORT:80"
+    volumes: 
+    - "web-static:/opt/pwd-manager/static"
+    - "./local_settings.py:/opt/pwd-manager/pwd_manager/local_settings.py"
+    - "./data/manager:/opt/pwd-manager/data"
+
+  nginx:
+    build: nginx
+    network_mode: "service:manager"
+    volumes: 
+    - "web-static:/var/www/static"
+
+volumes: 
+  web-static:
