@@ -35,13 +35,12 @@ services:
     - "8200:8200"
     volumes: 
     - ./vault-config:/vault/config
-    - ./data/vault:/vault/file
     command: vault server -config /vault/config/config.hcl
 
   consul:
     image: consul:${CONSUL_VERSION}
     volumes:
-    - consul-data:/consul/data
+    - $VAULT_DATA_FOLDER:/consul/data
     command: consul agent -server -bootstrap-expect=1 -data-dir=/consul/data --client=0.0.0.0
     environment: 
     - CONSUL_BIND_INTERFACE=eth0
@@ -58,4 +57,4 @@ services:
 
 volumes: 
   web-static:
-  consul-data:
+  vault-data:
