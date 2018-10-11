@@ -2,8 +2,11 @@
 {% load material_form %}
 
 {% block content  %}
-<link href="{% static 'css/font-awesome.css' %}" rel="stylesheet" type="text/css" ></link>
-<link href="{% static 'css/bootstrap-social.css' %}" rel="stylesheet" type="text/css" ></link>
+<style>
+.extra-auth-buttons .btn { margin: 5px; }
+</style>
+<link href="{% static 'css/font-awesome.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'css/bootstrap-social.css' %}" rel="stylesheet" type="text/css" />
 <div class="row valign change-form">
   <div class="col s12 m8 offset-m2 l8 offset-l2">
     <div class="card">
@@ -33,15 +36,11 @@
         </div>
       </form>
       <div class="divider"></div>
-      <div class="section center"><p class="flow-text">or login in with the following provider</p></div>
+      <div class="section center"><p class="flow-text">or<br/>log in with the following provider</p></div>
       <div class="section center">
-        <a class="waves-effect waves-light btn btn-block btn-social btn-google" href="{% url 'social:begin' 'google-oauth2' %}"><span class="fa fa-google"></span> Login with Google</a>
-      </div>
-      <div class="section center">
-        <a class="waves-effect waves-light btn btn-block btn-social btn-github " href="{% url 'social:begin' 'github' %}"><span class="fa fa-github"></span> Login with GitHub</a>
-      </div>
-      <div class="section center">
-        <a class="waves-effect waves-light btn btn-block yellow" href="{% url 'social:begin' 'kakao' %}">Login with Kakao</a>
+        <p><a class="waves-effect waves-light btn btn-block btn-social btn-google" href="{% url 'social:begin' 'google-oauth2' %}"><span class="fa fa-google"></span> Google</a></p>
+        <p><a class="waves-effect waves-light btn btn-block btn-social btn-github " href="{% url 'social:begin' 'github' %}"><span class="fa fa-github"></span> GitHub</a></p>
+        <p><a class="waves-effect waves-light btn btn-block grey darken-4 amber-text" href="{% url 'social:begin' 'kakao' %}">Kakao</a></p>
       </div>
     </div>
   </div>
