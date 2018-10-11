@@ -41,8 +41,9 @@ def edit_user(request):
         form = CustomUserChangeForm(instance=user)
     else:
         form = CustomUserChangeForm(instance=user, data=request.POST)
-        form.save()
-        return HttpResponseRedirect(reverse('manager:index'))
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('manager:index'))
 
     context = {'form': form}
     return render(request, 'users/edit_user.html', context)
