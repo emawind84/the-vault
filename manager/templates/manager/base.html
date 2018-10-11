@@ -30,15 +30,15 @@
         {% endblock %}
         <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li><a href="{% url 'manager:index' %}">home</a></li>
+          <li><a href="{% url 'manager:index' %}">Home</a></li>
           {% if user.is_authenticated %}
-          <li><a href="{% url 'manager:secrets' %}">secrets</a></li>
+          <li><a href="{% url 'manager:secrets' %}">Secrets</a></li>
           {% if perms.auth.add_user %}
-          <li><a href="{% url 'users:register' %}">register</a></li>
+          <li><a href="{% url 'users:register' %}">Register</a></li>
           {% endif %}
-          <li><a href="{% url 'users:logout' %}">log out</a></li>
+          <li><a href="{% url 'users:logout' %}">Log out</a></li>
           {% else %}
-          <li><a href="{% url 'users:login' %}">log in</a></li>
+          <li><a href="{% url 'users:login' %}">Log in</a></li>
           {% endif %}
         </ul>
         {% block nav-extra-content %}{% endblock %}
@@ -46,15 +46,15 @@
     </nav>
 
     <ul class="sidenav" id="mobile-demo">
-      <li><a href="{% url 'manager:index' %}">home</a></li>
+      <li><a href="{% url 'manager:index' %}">Home</a></li>
       {% if user.is_authenticated %}
-      <li><a href="{% url 'manager:secrets' %}">secrets</a></li>
+      <li><a href="{% url 'manager:secrets' %}">Secrets</a></li>
       {% if perms.auth.add_user %}
-      <li><a href="{% url 'users:register' %}">register</a></li>
+      <li><a href="{% url 'users:register' %}">Register</a></li>
       {% endif %}
-      <li><a href="{% url 'users:logout' %}">log out</a></li>
+      <li><a href="{% url 'users:logout' %}">Log out</a></li>
       {% else %}
-      <li><a href="{% url 'users:login' %}">log in</a></li>
+      <li><a href="{% url 'users:login' %}">Log in</a></li>
       {% endif %}
     </ul>
     <div class="container">
