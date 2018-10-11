@@ -22,7 +22,7 @@ def secrets(request):
         secrets = secrets.filter(label__icontains=data.get('search'))
 
     context = {'secrets': secrets, 'form': data}
-    return render(request, 'manager/secrets-collection.html', context)
+    return render(request, 'manager/secrets.html', context)
 
 @sensitive_variables('secret')
 @login_required

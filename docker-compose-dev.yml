@@ -29,6 +29,11 @@ services:
     - IPC_LOCK
     ports:
     - "8200:8200"
+    volumes: 
+    - "$VAULT_DATA_FOLDER:/vault/file"
     environment: 
     - "VAULT_DEV_ROOT_TOKEN_ID=myroot"
     - "VAULT_ADDR=http://0.0.0.0:8200"
+
+volumes: 
+  vault-data:
