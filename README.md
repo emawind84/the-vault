@@ -38,12 +38,18 @@ We create a superuser for managing users and groups:
 
 `python manage.py createsuperuser`
 
-Before starting the application we need to set some variables, so we create a new file named `local.settings.py` into the `pwd_manager` folder, just near the `settings.py` file.
+Before starting the application some configuration is required, create a new file named `local.settings.py` into the `pwd_manager` folder, just near the `settings.py` and add all the required variables.
 
-The following variables should be set:
+The following variables should be passed to the application, through the `local.settings.py` or as `shell variables`:
 
     VAULT_HOST
     VAULT_TOKEN
+
+The vault token is created the first time the vault is initialized, so you need to run the server and then initialized it:
+
+`vault operator init`
+
+The output of this command should give you five unseal keys and one initial root token to use to log in into the vault.
 
 Now we are ready to run the application:
 

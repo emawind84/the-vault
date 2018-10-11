@@ -52,7 +52,10 @@ echo "  dump            Create a DB dump file"
 echo "  ps              Show the status of the services"
 echo "  logs            Follow the logs on console"
 echo "  login           Log in to a Docker registry"
-echo "  remove-all      Remove all containers"
+echo "  vault-init      Initialize the vault"
+echo "  vault-unseal    Unseal the vault"
+echo "  vault-seal      Seal the vault"
+echo "  vault-login     Log in into the vault"
 echo "  stop-all        Stop all containers running"
 }
 

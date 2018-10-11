@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'material',
     'manager',
     'users',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +70,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -106,6 +109,23 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.open_id.OpenIdAuth',  # for Google authentication
+    'social_core.backends.google.GoogleOpenId',  # for Google authentication
+    'social_core.backends.google.GoogleOAuth2',  # for Google authentication
+    'social_core.backends.github.GithubOAuth2',  # for Github authentication
+    #'social_core.backends.facebook.FacebookOAuth2',  # for Facebook authentication
+    'social_core.backends.kakao.KakaoOAuth2',
+    #'auth.settings_backend.SettingsBackend',
+    #'auth.ldap_backend.LDAPBackend1',
+    #'auth.ldap_backend.LDAPBackend2',
+    #'auth.pmis_backend.PMISBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+#from social_core import backends
+#backends.kakao.KakaoOAuth2
+#backends.google.GoogleOAuth2
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
@@ -123,6 +143,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "local-static"),
+]
 
 STATIC_URL = '/static/'
 
