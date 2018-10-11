@@ -1,7 +1,9 @@
-{% extends "manager/base.html"  %}
+{% extends "manager/base.html"  %}{% load static %}
 {% load material_form %}
 
 {% block content  %}
+<link href="{% static 'css/font-awesome.css' %}" rel="stylesheet" type="text/css" ></link>
+<link href="{% static 'css/bootstrap-social.css' %}" rel="stylesheet" type="text/css" ></link>
 <div class="row valign change-form">
   <div class="col s12 m8 offset-m2 l8 offset-l2">
     <div class="card">
@@ -22,7 +24,7 @@
         <div class="card-action">
           <div class="row">
             <div class="col s6 left-align">
-              <a href="{% url 'users:password_reset' %}" class="waves-effect waves-teal btn-flat">Lost password?</a>
+              <a href="{% url 'users:password_reset' %}" class="waves-effect waves-teal btn btn-flat">Lost password?</a>
             </div>
             <div class="col s6 right-align">
               <button name="_submit" class="btn btn-primary">log in</button>
@@ -30,6 +32,14 @@
           </div>
         </div>
       </form>
+      <div class="divider"></div>
+      <div class="section center"><p class="flow-text">or login in with the following provider</p></div>
+      <div class="section center">
+        <a class="waves-effect waves-light btn btn-block btn-social btn-google" href="{% url 'social:begin' 'google-oauth2' %}"><span class="fa fa-google"></span> Login with Google</a>
+      </div>
+      <div class="section center">
+        <a class="waves-effect waves-light btn btn-block btn-social btn-github " href="{% url 'social:begin' 'github' %}"><span class="fa fa-github"></span> Login with GitHub</a>
+      </div>
     </div>
   </div>
 </div>
