@@ -11,3 +11,4 @@ python-ldap==3.1.0
 pytz==2018.5
 requests==2.19.1
 urllib3==1.23
+social-auth-app-django==2.1.0
