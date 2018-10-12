@@ -1,0 +1,45 @@
+{% extends "manager/base.html"  %}{% load static %}
+{% load material_form %}
+
+{% block content  %}
+<style>
+.extra-auth-buttons .btn { margin: 5px; }
+</style>
+<link href="{% static 'css/font-awesome.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'css/bootstrap-social.css' %}" rel="stylesheet" type="text/css" />
+<div class="row valign change-form">
+  <div class="col s12 m8 offset-m2 l8 offset-l2">
+    <div class="card">
+      <form method="post" action="{% url 'users:login' %}" class="viewform">
+        <div class="card-content">
+          <span class="card-title grey-text text-darken-2">Sign in</span>
+          <div class="section">
+          {% csrf_token  %}
+          {% form form=form %}{% endform %}
+          </div>
+          {% if form.errors %}
+          <div class="section">
+          <p>Your username and password didn't match. Please try again.</p>
+          </div>
+          {% endif  %}
+          <input type="hidden" name="next" value="{{ next }}" />
+          <div class="right-align">
+            <a href="{% url 'users:password_reset' %}" >Forgot your password?</a>
+          </div>
+        </div>
+        <div class="card-action">
+          <div class="right-align">
+            <button name="_submit" class="btn btn-primary">Log in</button>
+          </div>
+          <!-- <p class="flow-text center">or<br/>log in with the following provider</p>
+          <div class="section">
+            <p class="center"><a class="waves-effect waves-light btn btn-block btn-social btn-google" href="{% url 'social:begin' 'google-oauth2' %}"><span class="fa fa-google"></span> Google</a></p>
+            <p class="center"><a class="waves-effect waves-light btn btn-block btn-social btn-github " href="{% url 'social:begin' 'github' %}"><span class="fa fa-github"></span> GitHub</a></p>
+            <p class="center"><a class="waves-effect waves-light btn btn-block grey darken-4 amber-text" href="{% url 'social:begin' 'kakao' %}">Kakao</a></p>
+          </div> -->
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content  %}
