@@ -11,7 +11,7 @@
     <meta http-equiv="Content-Language" value="en-US" />
     {% endblock head_meta_contentlanguage %}
     {% block head_meta_viewport %}
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=3.0, minimum-scale=0.86" />
     {% endblock head_meta_viewport %}
 
     {% include 'material/includes/material_css.html' %}
@@ -20,6 +20,7 @@
 
     <style>
       nav .brand-logo{margin-left:10px;}
+      nav .extra-content{margin-left:150px;}
     </style>
   </head>
   <body>
@@ -41,7 +42,9 @@
           <li><a href="{% url 'users:login' %}">Log in</a></li>
           {% endif %}
         </ul>
+        <div class="extra-content">
         {% block nav-extra-content %}{% endblock %}
+        </div>
       </div>
     </nav>
 
@@ -59,6 +62,7 @@
     </ul>
     <div class="container">
       {% block content %}{% endblock content %}
+      {% block content-script %}{% endblock content-script %}
     </div>
 
     {% block sidenav_javascript %}
