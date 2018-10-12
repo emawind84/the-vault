@@ -3,7 +3,7 @@ version: "3"
 services: 
 
   manager:
-    build: .
+    build: app
     environment: 
     - VAULT_HOST=http://vault:8200
     - VAULT_TOKEN=myroot
