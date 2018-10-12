@@ -20,6 +20,7 @@
 
     <style>
       nav .brand-logo{margin-left:10px;}
+      nav .extra-content{margin-left:150px;}
     </style>
   </head>
   <body>
@@ -41,7 +42,9 @@
           <li><a href="{% url 'users:login' %}">Log in</a></li>
           {% endif %}
         </ul>
+        <div class="extra-content">
         {% block nav-extra-content %}{% endblock %}
+        </div>
       </div>
     </nav>
 

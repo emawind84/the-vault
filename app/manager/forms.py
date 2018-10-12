@@ -1,13 +1,17 @@
 from django import forms
+from django.contrib.auth.models import User
 
 from .models import Secret
 
 class SecretForm(forms.ModelForm):
+    random_password = User.objects.make_random_password(allowed_chars='abcdefghjkmnpqrstuvwxyz'
+                                           'ABCDEFGHJKLMNPQRSTUVWXYZ'
+                                           '23456789!@#$%&')
     username = forms.CharField(required=False)
-    password = forms.CharField(widget=forms.PasswordInput, required=False)
+    password = forms.CharField(widget=forms.PasswordInput, required=False, initial=random_password)
     notes = forms.CharField(widget=forms.Textarea(attrs={'cols': 80}), required=False)
     url = forms.URLField(required=False, label="Website")
-    confirm_password=forms.CharField(widget=forms.PasswordInput(), required=False, label="Repeat password")
+    confirm_password=forms.CharField(widget=forms.PasswordInput(), required=False, label="Repeat password", initial=random_password)
     
     field_order = ['label', 'category', 'username', 'password', 'confirm_password', 'url', 'project', 'config', 'notes']
 
