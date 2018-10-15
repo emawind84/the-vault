@@ -2,8 +2,9 @@ import os
 import hvac
 from hvac.exceptions import InvalidPath
 from django.conf import settings
+from .models import Vault
 
-class Vault():
+class VaultClient():
     
     def __init__(self, mount_point=os.environ.get('VAULT_MOUNT_POINT', 'pwdmng/')):
         path_prefix = self._path_prefix = mount_point
@@ -42,3 +43,8 @@ class Vault():
     def unwrap(self, token):
         response = self._client.adapter.post('/v1/sys/wrapping/unwrap', json={'token': token})
         return response.json()
+
+    def get_vault_or_create(self, user):
+        vaults = Vault.objects.filter(owner=user)
+        vault = vaults[0] if vaults else Vault.objects.create(owner=user)
+        return vault

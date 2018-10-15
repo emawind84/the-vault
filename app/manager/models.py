@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.crypto import get_random_string
 
 class Secret(models.Model):
     GENERAL='GENERAL'
@@ -23,3 +24,10 @@ class Secret(models.Model):
 
     def __str__(self):
         return self.label
+
+def generate_path():
+    return get_random_string(length=32)
+
+class Vault(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    path = models.CharField(max_length=200, unique=True, primary_key=True, default=generate_path)
