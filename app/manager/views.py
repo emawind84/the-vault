@@ -6,9 +6,9 @@ from django.views.decorators.debug import sensitive_variables, sensitive_post_pa
 from datetime import datetime
 from .models import Secret
 from .forms import SecretForm
-from .vault import Vault
+from .vault import VaultClient
 
-vault_client = Vault()
+vault_client = VaultClient()
 
 @login_required
 def index(request):

@@ -3,10 +3,15 @@ from django.contrib.auth.models import User
 
 from .models import Secret
 
-class SecretForm(forms.ModelForm):
+def generate_password():
     random_password = User.objects.make_random_password(allowed_chars='abcdefghjkmnpqrstuvwxyz'
-                                           'ABCDEFGHJKLMNPQRSTUVWXYZ'
-                                           '23456789!@#$%&')
+        'ABCDEFGHJKLMNPQRSTUVWXYZ'
+        '23456789!@#$%&')
+    
+    return random_password
+    
+class SecretForm(forms.ModelForm):
+    random_password = generate_password()
     username = forms.CharField(required=False)
     password = forms.CharField(widget=forms.PasswordInput, required=False, initial=random_password)
     notes = forms.CharField(widget=forms.Textarea(attrs={'cols': 80}), required=False)
