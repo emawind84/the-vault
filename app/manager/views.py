@@ -6,9 +6,9 @@ from django.views.decorators.debug import sensitive_variables, sensitive_post_pa
 from datetime import datetime
 from .models import Secret
 from .forms import SecretForm
-from .vault import Vault
+from .vault import VaultClient
 
-vault_client = Vault()
+vault_client = VaultClient()
 
 @login_required
 def index(request):
@@ -32,7 +32,8 @@ def secret(request, secret_id):
     if secret.creator != request.user:
         raise Http404
 
-    vault_data = vault_client.read('{0}/{1}'.format(request.user.pk, secret.label))
+    vault = vault_client.get_vault_or_create(request.user)
+    vault_data = vault_client.read('{0}/{1}'.format(vault.path, secret.label))
     if vault_data != None:
         secret.password = vault_data['data'].get('password', None)
         secret.config = vault_data['data'].get('config', None)
@@ -50,7 +51,9 @@ def new_secret(request):
         form = SecretForm(data=request.POST)
         if form.is_valid():
             new_secret = form.save(commit=False)
-            vault_client.write('{0}/{1}'.format(request.user.pk, new_secret.label), 
+
+            vault = vault_client.get_vault_or_create(request.user)
+            vault_client.write('{0}/{1}'.format(vault.path, new_secret.label), 
                 password=new_secret.password, 
                 config=new_secret.config)
             
@@ -73,7 +76,8 @@ def edit_secret(request, secret_id):
     if secret.creator != request.user:
         raise Http404
 
-    vault_data = vault_client.read('{0}/{1}'.format(request.user.pk, secret.label))
+    vault = vault_client.get_vault_or_create(request.user)
+    vault_data = vault_client.read('{0}/{1}'.format(vault.path, secret.label))
     if vault_data != None:
         secret.password = vault_data['data'].get('password', None)
         secret.config = vault_data['data'].get('config', None)
@@ -84,7 +88,7 @@ def edit_secret(request, secret_id):
         form = SecretForm(instance=secret, data=request.POST)
         if form.is_valid():
             secret = form.save(commit=False)
-            vault_client.write('{0}/{1}'.format(request.user.pk, secret.label), 
+            vault_client.write('{0}/{1}'.format(vault.path, secret.label), 
                 password=secret.password, 
                 config=secret.config)
             
@@ -106,7 +110,8 @@ def delete_secret(request, secret_id):
         raise Http404
 
     if request.method == "POST":
-        vault_client.delete('{0}/{1}'.format(request.user.pk, secret.label))
+        vault = vault_client.get_vault_or_create(request.user)
+        vault_client.delete('{0}/{1}'.format(vault.path, secret.label))
         secret.delete()
         return HttpResponseRedirect(reverse('manager:secrets'))
     
