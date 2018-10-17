@@ -118,9 +118,9 @@ AUTHENTICATION_BACKENDS = (
     #'social_core.backends.facebook.FacebookOAuth2',  # for Facebook authentication
     #'social_core.backends.kakao.KakaoOAuth2',
     #'auth.settings_backend.SettingsBackend',
-    'auth.ldap_backend.LDAPBackend1',
+    #'auth.ldap_backend.LDAPBackend1',
     #'auth.ldap_backend.LDAPBackend2',
-    'auth.pmis_backend.PMISBackend',
+    #'auth.pmis_backend.PMISBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
