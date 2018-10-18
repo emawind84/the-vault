@@ -22,7 +22,7 @@ class SecretForm(forms.ModelForm):
 
     class Meta:
         model = Secret
-        fields = ['label', 'username', 'password', 'url', 'notes', 'category', 'ip', 'config', 'project']
+        fields = ['label', 'username', 'password', 'url', 'notes', 'category', 'ip', 'config', 'project', 'groups']
         #labels = {'url': 'URL'}
 
     def clean(self):
