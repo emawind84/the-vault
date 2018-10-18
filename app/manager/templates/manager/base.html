@@ -22,13 +22,14 @@
     <style>
       nav .brand-logo{margin-left:10px;}
       nav .extra-content{margin-left:150px;}
+      nav .brand-logo > img {height: 28px;}
     </style>
   </head>
   <body>
     <nav>
       <div class="nav-wrapper">
         {% block nav-title %}
-        <a href="{% url 'manager:index' %}" class="brand-logo">The Vault</a>
+        <a href="{% url 'manager:index' %}" class="brand-logo"><img src="{% static 'images/logo.png' %}" alt="SangAh Logo"></a>
         {% endblock %}
         <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">

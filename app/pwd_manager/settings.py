@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # my apps
-    'material.theme.teal',
+    'material.theme.bluegrey',
     'material',
     'manager',
     'users',
