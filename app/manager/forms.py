@@ -12,17 +12,17 @@ def generate_password():
     
 class SecretForm(forms.ModelForm):
     random_password = generate_password()
-    username = forms.CharField(required=False)
     password = forms.CharField(widget=forms.PasswordInput, required=False, initial=random_password)
     notes = forms.CharField(widget=forms.Textarea(attrs={'cols': 80}), required=False)
-    url = forms.URLField(required=False, label="Website")
+    url = forms.CharField(required=False, label="Website")
+    ip = forms.CharField(required=False, label="IP")
     confirm_password=forms.CharField(widget=forms.PasswordInput(), required=False, label="Repeat password", initial=random_password)
     
-    field_order = ['label', 'category', 'username', 'password', 'confirm_password', 'url', 'project', 'config', 'notes']
+    field_order = ['label', 'category', 'username', 'password', 'confirm_password', 'ip', 'url', 'notes']
 
     class Meta:
         model = Secret
-        fields = ['label', 'username', 'password', 'url', 'notes', 'category']
+        fields = ['label', 'username', 'password', 'url', 'notes', 'category', 'ip']
         #labels = {'url': 'URL'}
 
     def clean(self):
