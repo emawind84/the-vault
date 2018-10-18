@@ -1,0 +1,85 @@
+<!DOCTYPE html>{% load static %}
+<html>
+  <head>
+    <title>{% block title %}The Vault{% endblock %}</title>
+    {% block head_favicon %}
+    {% endblock head_favicon %}
+    {% block head_meta_charset %}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    {% endblock head_meta_charset %}
+    {% block head_meta_contentlanguage %}
+    <meta http-equiv="Content-Language" value="en-US" />
+    {% endblock head_meta_contentlanguage %}
+    {% block head_meta_viewport %}
+    <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=3.0, minimum-scale=0.86" />
+    {% endblock head_meta_viewport %}
+
+    {% include 'material/includes/material_css.html' %}
+    <script src="{% static 'material/js/jquery.js' %}"></script>
+    <script src="{% static 'js/clipboard.min.js' %}"></script>
+    {% include 'material/includes/material_js.html' %}
+
+    <style>
+      nav .brand-logo{margin-left:10px;}
+      nav .extra-content{margin-left:150px;}
+      nav .brand-logo > img {height: 28px;}
+      @media only screen and (max-width: 992px) {
+        nav .extra-content{margin-left:60px;}
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-wrapper">
+        {% block nav-title %}
+        <a href="{% url 'manager:index' %}" class="brand-logo"><img src="{% static 'images/logo.png' %}" alt="SangAh Logo"></a>
+        {% endblock %}
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a href="{% url 'manager:index' %}">Home</a></li>
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'manager:secrets' %}">Secrets</a></li>
+          {% if perms.auth.add_user %}
+          <li><a href="{% url 'users:register' %}">Register</a></li>
+          {% endif %}
+          <li><a href="{% url 'users:logout' %}">Log out</a></li>
+          {% else %}
+          <li><a href="{% url 'users:login' %}">Log in</a></li>
+          {% endif %}
+        </ul>
+        <div class="extra-content">
+        {% block nav-extra-content %}{% endblock %}
+        </div>
+      </div>
+    </nav>
+
+    <ul class="sidenav" id="mobile-demo">
+      <li><a href="{% url 'manager:index' %}">Home</a></li>
+      {% if user.is_authenticated %}
+      <li><a href="{% url 'manager:secrets' %}">Secrets</a></li>
+      {% if perms.auth.add_user %}
+      <li><a href="{% url 'users:register' %}">Register</a></li>
+      {% endif %}
+      <li><a href="{% url 'users:logout' %}">Log out</a></li>
+      {% else %}
+      <li><a href="{% url 'users:login' %}">Log in</a></li>
+      {% endif %}
+    </ul>
+    <div class="container">
+      {% block content %}{% endblock content %}
+      {% block content-script %}{% endblock content-script %}
+    </div>
+
+    {% block sidenav_javascript %}
+    <script>
+    $(document).ready(function(){
+      $('.sidenav').sidenav();
+    });
+    </script>
+    {% endblock sidenav_javascript %}
+  </body>
+</html>
+
+
+
+
