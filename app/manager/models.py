@@ -6,7 +6,7 @@ class Secret(models.Model):
     GENERAL='GENERAL'
     DBINFO='DB'
     SERVERINFO='SERVER'
-    CATEGORIES = (('DB', 'DB'), ('SERVER', 'Server'), ('GENERAL', 'General'))
+    CATEGORIES = (('DB', 'DB'), ('SERVER@LINUX', 'Linux Server'), ('SERVER@WIN', 'Windows Server'), ('GENERAL', 'General'))
     
     label = models.CharField(max_length=200, unique=True)
     username = models.CharField(max_length=200, null=True, blank=True)

@@ -14,7 +14,7 @@ class SecretForm(forms.ModelForm):
     random_password = generate_password()
     password = forms.CharField(widget=forms.PasswordInput, required=False, initial=random_password)
     notes = forms.CharField(widget=forms.Textarea(attrs={'cols': 80}), required=False)
-    url = forms.CharField(required=False, label="Website")
+    url = forms.CharField(required=False, label="Domain")
     ip = forms.CharField(required=False, label="IP")
     confirm_password=forms.CharField(widget=forms.PasswordInput(), required=False, label="Repeat password", initial=random_password)
     
