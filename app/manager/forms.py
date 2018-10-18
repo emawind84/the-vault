@@ -18,7 +18,7 @@ class SecretForm(forms.ModelForm):
     ip = forms.CharField(required=False, label="IP")
     confirm_password=forms.CharField(widget=forms.PasswordInput(), required=False, label="Repeat password", initial=random_password)
     
-    field_order = ['label', 'category', 'username', 'password', 'confirm_password', 'ip', 'url', 'project', 'config', 'notes']
+    field_order = ['label', 'category', 'username', 'password', 'confirm_password', 'ip', 'url', 'project', 'config', 'notes', 'groups']
 
     class Meta:
         model = Secret
@@ -34,14 +34,12 @@ class SecretForm(forms.ModelForm):
         if password != confirm_password:
             self.add_error('confirm_password', "Passwords don't match.")
 
-        """
         # this is used for checking duplicates if the attribute unique=True is not used
-        matching_secrets = Secret.objects.filter(label=cleaned_data.get("label"))
-        if self.instance:
-            matching_secrets = matching_secrets.exclude(pk=self.instance.pk)
+        # matching_secrets = Secret.objects.filter(label=cleaned_data.get("label"))
+        # if self.instance:
+        #     matching_secrets = matching_secrets.exclude(pk=self.instance.pk)
 
-        if matching_secrets.exists():
-            msg = "A secret with this label already exists."
-            self.add_error('label', msg)
-        """
+        # if matching_secrets.exists():
+        #     msg = "A secret with this label already exists."
+        #     self.add_error('label', msg)
         return self.cleaned_data

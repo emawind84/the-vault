@@ -3,10 +3,12 @@ from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.debug import sensitive_variables, sensitive_post_parameters
+from django.db.models import Q
 from datetime import datetime
 from .models import Secret
 from .forms import SecretForm
 from .vault import VaultClient
+from .decorators import groups_required
 
 vault_client = VaultClient()
 
@@ -16,7 +18,11 @@ def index(request):
 
 @login_required
 def secrets(request):
-    secrets = Secret.objects.order_by('label')
+    # we filter secrets owned by the session user having at least one group of the user or None
+    secrets = Secret.objects.filter(
+        Q(groups__in=request.user.groups.all()) | Q(groups__isnull=True)
+        ).order_by('label')
+    
     data = request.GET
     if data.get('search', '') != '':
         secrets = secrets.filter(label__icontains=data.get('search'))
@@ -26,6 +32,7 @@ def secrets(request):
 
 @sensitive_variables('secret')
 @login_required
+@groups_required
 def secret(request, secret_id):
     secret = get_object_or_404(Secret, id=secret_id)
 
@@ -63,6 +70,7 @@ def new_secret(request):
 @sensitive_variables('secret')
 @sensitive_post_parameters()
 @login_required
+@groups_required
 def edit_secret(request, secret_id):
     """Edit an existing secret."""
     secret = get_object_or_404(Secret, id=secret_id)
@@ -87,12 +95,16 @@ def edit_secret(request, secret_id):
             secret.password = ''
             secret.config = ''
             secret.save()
+            # since we are using commit=False, save the many-to-many data for the form.
+            form.save_m2m()
+
             return HttpResponseRedirect(reverse('manager:secret', args=[secret.id]))
 
     context = {'secret': secret, 'form': form}
     return render(request, 'manager/edit_secret.html', context)
 
 @login_required
+@groups_required
 def delete_secret(request, secret_id):
     secret = get_object_or_404(Secret, id=secret_id)
 
@@ -104,3 +116,10 @@ def delete_secret(request, secret_id):
     context = {'secret': secret}
     return render(request, 'manager/delete_secret.html', context)
     
+
+def is_member_of(user, groups):
+    user_groups = user.groups.all()
+    for g in groups:
+        if g in user_groups:
+            return True
+    return False
