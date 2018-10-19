@@ -68,6 +68,9 @@ def new_secret(request):
             new_secret.password = ''
             new_secret.config = ''
             new_secret.save()
+            # since we are using commit=False, save the many-to-many data for the form.
+            form.save_m2m()
+            
             return HttpResponseRedirect(reverse('manager:secrets'))
 
     context = {'form': form}
