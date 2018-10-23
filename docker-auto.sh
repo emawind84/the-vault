@@ -12,7 +12,7 @@ getenv(){
 }
 
 DOCKER_COMPOSE_VERSION="1.14.0"
-CONF_ARG="-f docker-compose.yml"
+CONF_ARG="-f common-service.yml -f docker-compose.yml"
 SCRIPT_BASE_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 REGISTRY_URL="$(getenv REGISTRY_URL)"
 
@@ -56,6 +56,7 @@ echo "  vault-init      Initialize the vault"
 echo "  vault-unseal    Unseal the vault"
 echo "  vault-seal      Seal the vault"
 echo "  vault-login     Log in into the vault"
+echo "  vault-cmd       Execute a vault command"
 echo "  stop-all        Stop all containers running"
 }
 
@@ -120,6 +121,11 @@ elif [ "$1" == "vault-unseal" ]; then
 elif [ "$1" == "vault-login" ]; then
     shift
     docker-compose $CONF_ARG exec vault vault login
+    exit 0
+
+elif [ "$1" == "vault-cmd" ]; then
+    shift
+    docker-compose $CONF_ARG exec vault vault "$@"
     exit 0
 
 elif [ "$1" == "flush" ]; then

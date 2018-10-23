@@ -12,7 +12,7 @@ class Secret(models.Model):
     username = models.CharField(max_length=200, null=True, blank=True)
     url = models.CharField(max_length=200, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
-    password = models.CharField(max_length=20, null=True, blank=True)
+    password = models.CharField(max_length=100, null=True, blank=True)
     project = models.CharField(max_length=200, null=True, blank=True)
     config = models.TextField(null=True, blank=True)
     category = models.CharField(max_length=100, null=True, blank=True, choices=CATEGORIES, default=GENERAL)

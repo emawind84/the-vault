@@ -68,6 +68,9 @@ def new_secret(request):
             new_secret.password = ''
             new_secret.config = ''
             new_secret.save()
+            # since we are using commit=False, save the many-to-many data for the form.
+            form.save_m2m()
+            
             return HttpResponseRedirect(reverse('manager:secrets'))
 
     context = {'form': form}
@@ -129,11 +132,3 @@ def delete_secret(request, secret_id):
     
     context = {'secret': secret}
     return render(request, 'manager/delete_secret.html', context)
-    
-
-def is_member_of(user, groups):
-    user_groups = user.groups.all()
-    for g in groups:
-        if g in user_groups:
-            return True
-    return False
