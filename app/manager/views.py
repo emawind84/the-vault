@@ -118,11 +118,3 @@ def delete_secret(request, secret_id):
     
     context = {'secret': secret}
     return render(request, 'manager/delete_secret.html', context)
-    
-
-def is_member_of(user, groups):
-    user_groups = user.groups.all()
-    for g in groups:
-        if g in user_groups:
-            return True
-    return False
