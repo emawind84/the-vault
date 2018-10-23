@@ -1,6 +1,7 @@
 import os
 import hvac
-from hvac.exceptions import InvalidPath, Forbidden
+from hvac.exceptions import InvalidPath
+from requests.exceptions import ConnectionError
 from django.conf import settings
 from .models import Vault
 
@@ -16,7 +17,7 @@ class VaultClient():
             if engines.get(path_prefix) == None:
                 client.enable_secret_backend('kv', mount_point=path_prefix, options={'version': '1'})
             client.kv.default_kv_version = "1"
-        except Forbidden as err:
+        except ConnectionError as err:
             print("VaultClient error: {0}".format(err))
             pass
 
