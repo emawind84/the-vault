@@ -1,13 +1,13 @@
 from django.test import TestCase
 
-from .vault import Vault
+from .vault import VaultClient
 
 class VaultTest(TestCase):
 
     TEST_MOUNT_POINT='test/'
 
     def setUp(self):
-        self.vault_client = Vault(mount_point=self.TEST_MOUNT_POINT)
+        self.vault_client = VaultClient(mount_point=self.TEST_MOUNT_POINT)
 
     def test_vault_write(self):
         self.vault_client.write('test1', abc='val1')
