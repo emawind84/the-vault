@@ -74,7 +74,7 @@ In the web server configuration we need to add the static location in order to s
         root /media/usb2/pwd_manager;
     }
 
-### Token Creation
+## Token creation
 
 A new vault token should be generated to log in and access the secrets through the manager, the root token should not be used for security reason.
 
@@ -86,6 +86,18 @@ We need to register this policy first, and then create a new token with this pol
     $ vault token create -policy=base -orphan
 
 take note of the new token and update the variable `VAULT_TOKEN` with the new value.
+
+### Expiration & renew
+
+You can retrieve the token information as well:
+
+    $ vault token lookup
+
+> amongst the data, `ttl` value and `expire_time` are important, take note of these values since we should renew the token before it expires.
+
+We can renew the token for another month (make sure you do the renew before the expiration time):
+
+    $ vault token renew -increment=750h
 
 
 ## Execution with Docker
