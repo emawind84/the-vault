@@ -3,7 +3,7 @@ version: "3"
 services: 
 
   manager:
-    image: sangah/pwd-manager
+    image: sangah/pwd-manager:${MANAGER_VERION}
     environment: 
     - VAULT_HOST=http://vault:8200
     - VAULT_TOKEN
@@ -14,6 +14,7 @@ services:
     - "web-static:/opt/pwd-manager/static"
     - "./local_settings.py:/opt/pwd-manager/pwd_manager/local_settings.py"
     - "./data/manager:/opt/pwd-manager/data"
+    restart: "unless-stopped"
 
   vault:
     image: vault:${VAULT_VERSION}
@@ -36,6 +37,7 @@ services:
     volumes: 
     - ./vault-config:/vault/config
     command: vault server -config /vault/config/config.hcl
+    restart: "unless-stopped"
 
   consul:
     image: consul:${CONSUL_VERSION}
@@ -44,6 +46,7 @@ services:
     command: consul agent -server -bootstrap-expect=1 -data-dir=/consul/data --client=0.0.0.0
     environment: 
     - CONSUL_BIND_INTERFACE=eth0
+    restart: "unless-stopped"
 
   nginx:
     build: nginx
@@ -54,6 +57,7 @@ services:
     - manager
     volumes: 
     - "web-static:/var/www/static"
+    restart: "unless-stopped"
 
 volumes: 
   web-static:
