@@ -3,7 +3,7 @@ version: "3"
 services: 
 
   manager:
-    image: sangah/pwd-manager
+    image: sangah/pwd-manager:${MANAGER_VERION}
     environment: 
     - VAULT_HOST
     - VAULT_TOKEN
