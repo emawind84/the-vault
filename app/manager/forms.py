@@ -18,11 +18,11 @@ class SecretForm(forms.ModelForm):
     ip = forms.CharField(required=False, label="IP")
     confirm_password=forms.CharField(widget=forms.PasswordInput(), required=False, label="Repeat password", initial=random_password)
     
-    field_order = ['label', 'category', 'username', 'password', 'confirm_password', 'ip', 'url', 'notes', 'groups']
+    field_order = ['label', 'category', 'username', 'password', 'confirm_password', 'ip', 'url', 'config', 'notes', 'groups']
 
     class Meta:
         model = Secret
-        fields = ['label', 'username', 'password', 'url', 'notes', 'category', 'ip']
+        fields = ['label', 'username', 'password', 'url', 'notes', 'category', 'ip', 'config']
         #labels = {'url': 'URL'}
 
     def clean(self):
