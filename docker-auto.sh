@@ -57,6 +57,7 @@ echo "  vault-init      Initialize the vault"
 echo "  vault-unseal    Unseal the vault"
 echo "  vault-seal      Seal the vault"
 echo "  vault-login     Log in into the vault"
+echo "  vault-renew     Renew the vault token"
 echo "  vault-cmd       Execute a vault command"
 echo "  stop-all        Stop all containers running"
 }
@@ -128,6 +129,7 @@ elif [ "$1" == "vault-renew" ]; then
     shift
     docker-compose $CONF_ARG exec vault vault login $VAULT_TOKEN
     docker-compose $CONF_ARG exec vault vault token renew -increment=750h
+    exit 0
 
 elif [ "$1" == "vault-cmd" ]; then
     shift
