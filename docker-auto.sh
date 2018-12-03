@@ -15,6 +15,7 @@ DOCKER_COMPOSE_VERSION="1.14.0"
 CONF_ARG="-f common-service.yml -f docker-compose.yml"
 SCRIPT_BASE_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 REGISTRY_URL="$(getenv REGISTRY_URL)"
+VAULT_TOKEN="$(getenv VAULT_TOKEN)"
 
 cd "$SCRIPT_BASE_PATH"
 
@@ -122,6 +123,11 @@ elif [ "$1" == "vault-login" ]; then
     shift
     docker-compose $CONF_ARG exec vault vault login
     exit 0
+
+elif [ "$1" == "vault-renew" ]; then
+    shift
+    docker-compose $CONF_ARG exec vault vault login $VAULT_TOKEN
+    docker-compose $CONF_ARG exec vault vault token renew -increment=750h
 
 elif [ "$1" == "vault-cmd" ]; then
     shift
