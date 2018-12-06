@@ -31,6 +31,7 @@ def secrets(request):
             Q(label__icontains=data.get('search')) | 
             Q(category__icontains=data.get('search')) |
             Q(ip__icontains=data.get('search')) |
+            Q(url__icontains=data.get('search')) |
             Q(project__icontains=data.get('search'))
         )
 
