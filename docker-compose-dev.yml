@@ -14,7 +14,7 @@ services:
     - "$MANAGER_LISTEN_PORT:8091"
     volumes: 
     - "./local_settings.py:/opt/pwd-manager/pwd_manager/local_settings.py"
-    - "./data/manager:/opt/pwd-manager/data"
+    - "$MANAGER_DATA_HOME:/opt/pwd-manager/data"
   
   vault:
     image: vault:${VAULT_VERSION}
@@ -30,7 +30,7 @@ services:
     ports:
     - "8200:8200"
     volumes: 
-    - "$VAULT_DATA_FOLDER:/vault/file"
+    - "$VAULT_DATA_HOME:/vault/file"
     environment: 
     - "VAULT_DEV_ROOT_TOKEN_ID=myroot"
     - "VAULT_ADDR=http://0.0.0.0:8200"
