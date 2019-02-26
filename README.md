@@ -8,7 +8,7 @@ HashiCorp Vault is required for securely store the credentials.
 
 Upgrade pip to the latest version:
 
-`python -m pip upgrade pip`
+`python -m pip install --upgrade pip`
 
 Then we install virtualenv:
 
