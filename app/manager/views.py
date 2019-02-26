@@ -9,6 +9,7 @@ from .models import Secret
 from .forms import SecretForm
 from .vault import VaultClient
 from .decorators import groups_required
+from .utils import generate_password
 
 vault_client = VaultClient()
 
@@ -20,12 +21,19 @@ def index(request):
 def secrets(request):
     # we filter secrets owned by the session user having at least one group of the user or None
     secrets = Secret.objects.filter(
-        Q(groups__in=request.user.groups.all()) | Q(groups__isnull=True)
-        ).order_by('label')
+        Q(groups__in=request.user.groups.all()) | 
+        Q(groups__isnull=True)
+    ).order_by('label')
     
     data = request.GET
     if data.get('search', '') != '':
-        secrets = secrets.filter(label__icontains=data.get('search'))
+        secrets = secrets.filter(
+            Q(label__icontains=data.get('search')) | 
+            Q(category__icontains=data.get('search')) |
+            Q(ip__icontains=data.get('search')) |
+            Q(url__icontains=data.get('search')) |
+            Q(project__icontains=data.get('search'))
+        )
 
     context = {'secrets': secrets, 'form': data}
     return render(request, 'manager/secrets.html', context)
@@ -49,7 +57,8 @@ def secret(request, secret_id):
 @login_required
 def new_secret(request):
     if request.method != 'POST':
-        form = SecretForm()
+        random_password = generate_password()
+        form = SecretForm(initial={'password': random_password, 'confirm_password': random_password})
     else:
         form = SecretForm(data=request.POST)
         if form.is_valid():

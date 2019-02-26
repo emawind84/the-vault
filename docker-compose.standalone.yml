@@ -3,7 +3,7 @@ version: "3"
 services: 
 
   manager:
-    image: sangah/pwd-manager
+    image: sangah/pwd-manager:${MANAGER_VERION}
     environment: 
     - VAULT_HOST
     - VAULT_TOKEN
@@ -13,7 +13,7 @@ services:
     volumes: 
     - "web-static:/opt/pwd-manager/static"
     - "./local_settings.py:/opt/pwd-manager/pwd_manager/local_settings.py"
-    - "./data/manager:/opt/pwd-manager/data"
+    - "$MANAGER_DATA_HOME:/opt/pwd-manager/data"
 
   nginx:
     build: nginx

@@ -20,7 +20,7 @@ class Secret(models.Model):
     date_changed = models.DateTimeField(auto_now_add=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     config2  = models.TextField(null=True, blank=True)
-    ip = models.CharField(max_length=20, null=True, blank=True)
+    ip = models.CharField(max_length=100, null=True, blank=True)
     groups = models.ManyToManyField(Group, blank=True)
 
     def __str__(self):
