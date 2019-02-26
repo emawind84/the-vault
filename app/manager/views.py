@@ -9,6 +9,7 @@ from .models import Secret
 from .forms import SecretForm
 from .vault import VaultClient
 from .decorators import groups_required
+from .utils import generate_password
 
 vault_client = VaultClient()
 
@@ -56,7 +57,8 @@ def secret(request, secret_id):
 @login_required
 def new_secret(request):
     if request.method != 'POST':
-        form = SecretForm()
+        random_password = generate_password()
+        form = SecretForm(initial={'password': random_password, 'confirm_password': random_password})
     else:
         form = SecretForm(data=request.POST)
         if form.is_valid():
