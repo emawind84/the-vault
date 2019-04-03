@@ -14,6 +14,7 @@ getenv(){
     echo "${_env:-$(cat .env | awk 'BEGIN { FS="="; } /^'$1'/ {sub(/\r/,"",$2); print $2;}')}"
 }
 
+PATH=$PATH:/usr/local/bin/
 DOCKER_COMPOSE_VERSION="1.14.0"
 CONF_ARG="-f common-service.yml -f docker-compose.yml"
 REGISTRY_URL="$(getenv REGISTRY_URL)"
