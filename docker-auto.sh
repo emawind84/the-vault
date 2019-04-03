@@ -128,8 +128,8 @@ elif [ "$1" == "vault-login" ]; then
 
 elif [ "$1" == "vault-renew" ]; then
     shift
-    docker-compose $CONF_ARG exec vault vault login $VAULT_TOKEN
-    docker-compose $CONF_ARG exec vault vault token renew -increment=750h
+    docker-compose $CONF_ARG exec -T vault vault login $VAULT_TOKEN
+    docker-compose $CONF_ARG exec -T vault vault token renew -increment=750h
     exit 0
 
 elif [ "$1" == "vault-cmd" ]; then
