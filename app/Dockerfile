@@ -1,4 +1,4 @@
-FROM alpine:3.8
+FROM alpine:3.14
 
 COPY . /opt/pwd-manager
 WORKDIR /opt/pwd-manager
@@ -14,6 +14,7 @@ RUN set -e && \
         bash \
         python3 \
         #libldap \
+        libffi-dev \
         openldap-dev \
         py-pip && \
     pip install --upgrade pip && \

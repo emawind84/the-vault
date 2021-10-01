@@ -1,7 +1,7 @@
 """Defines URL patterns for users"""
 
 from django.conf.urls import url
-from django.contrib.auth.views import login
+from django.contrib.auth.views import LoginView
 from django.urls import path, reverse
 from django.contrib.auth import views as auth_views
 
@@ -9,7 +9,7 @@ from . import views
 
 urlpatterns = [
     # login page
-    url(r'^login/$', login, {'template_name': 'users/login.html'}, name='login'),
+    url(r'^login/$', LoginView.as_view(template_name='users/login.html'), name='login'),
 
     # logout page
     url(r'^logout/$', views.logout_view, name='logout'),
