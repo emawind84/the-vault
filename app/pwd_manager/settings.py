@@ -164,6 +164,8 @@ VAULT_HOST = os.environ.get('VAULT_HOST', 'http://127.0.0.1:8200')
 
 VAULT_TOKEN = os.environ.get('VAULT_TOKEN')
 
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
+
 try:
     from .local_settings import *
     from .ldap_settings import *
