@@ -15,7 +15,7 @@ getenv(){
 }
 
 PATH=$PATH:/usr/local/bin/
-DOCKER_COMPOSE_VERSION="1.14.0"
+DOCKER_COMPOSE_VERSION="1.29.2"
 CONF_ARG="-f common-service.yml -f docker-compose.yml"
 REGISTRY_URL="$(getenv REGISTRY_URL)"
 VAULT_TOKEN="$(getenv VAULT_TOKEN)"
