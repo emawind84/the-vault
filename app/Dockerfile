@@ -16,9 +16,8 @@ RUN set -e && \
         #libldap \
         libffi-dev \
         openldap-dev \
-        py-pip && \
-    pip install --upgrade pip && \
-    pip install virtualenv
+        py3-pip && \
+    pip install --ignore-installed virtualenv
 
 RUN set -e && \
     apk add --no-cache --virtual .build-deps \
