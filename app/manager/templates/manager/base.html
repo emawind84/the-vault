@@ -1,83 +1,96 @@
-<!DOCTYPE html>{% load static %}
-<html>
+<!DOCTYPE html>
+{% load static %}
+{% load icons %}
+<html lang="en">
   <head>
     <title>{% block title %}The Vault{% endblock %}</title>
     {% block head_favicon %}
     {% endblock head_favicon %}
     {% block head_meta_charset %}
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     {% endblock head_meta_charset %}
     {% block head_meta_contentlanguage %}
-    <meta http-equiv="Content-Language" value="en-US" />
+    <meta http-equiv="Content-Language" content="en-US" />
     {% endblock head_meta_contentlanguage %}
     {% block head_meta_viewport %}
-    <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=3.0, minimum-scale=0.86" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     {% endblock head_meta_viewport %}
 
-    {% include 'material/includes/material_css.html' %}
-    <script src="{% static 'material/js/jquery.js' %}"></script>
-    {% include 'material/includes/material_js.html' %}
+    <link rel="stylesheet" href="{% static 'css/app.css' %}" />
+    {% block extra_head %}{% endblock %}
 
-    <style>
-      nav .brand-logo{margin-left:10px;}
-      nav .extra-content{margin-left:150px;height: 100%;}
-      @media only screen and (max-width: 992px) {
-        nav .extra-content{margin-left:60px;}
-      }
-    </style>
+    <script>
+      (function () {
+        var stored = localStorage.getItem("vault-theme");
+        var theme = stored || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
   </head>
   <body>
-    <nav>
-      <div class="nav-wrapper">
-        {% block nav-title %}
-        <a href="{% url 'manager:index' %}" class="brand-logo">The Vault</a>
-        {% endblock %}
-        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li><a href="{% url 'manager:index' %}">Home</a></li>
-          {% if user.is_authenticated %}
-          <li><a href="{% url 'manager:secrets' %}">Secrets</a></li>
-          {% if perms.auth.add_user %}
-          <li><a href="{% url 'users:register' %}">Register</a></li>
-          {% endif %}
-          <li><a href="{% url 'users:logout' %}">Log out</a></li>
-          {% else %}
-          <li><a href="{% url 'users:login' %}">Log in</a></li>
-          {% endif %}
-        </ul>
-        <div class="extra-content">
-        {% block nav-extra-content %}{% endblock %}
-        </div>
+    <button type="button" class="sidenav-backdrop" data-sidenav-backdrop aria-hidden="true"></button>
+
+    <nav class="sidenav" data-sidenav aria-label="Main navigation">
+      <div class="topbar__brand">
+        {% icon 'lock' 'icon icon-lg' %}
+        <span>The Vault</span>
       </div>
+      <ul class="sidenav__list">
+        <li><a href="{% url 'manager:index' %}" data-sidenav-close>Home</a></li>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'manager:secrets' %}" data-sidenav-close>Secrets</a></li>
+        {% if perms.auth.add_user %}
+        <li><a href="{% url 'users:register' %}" data-sidenav-close>Register user</a></li>
+        {% endif %}
+        <li><a href="{% url 'users:logout' %}" data-sidenav-close>Log out</a></li>
+        {% else %}
+        <li><a href="{% url 'users:login' %}" data-sidenav-close>Log in</a></li>
+        {% endif %}
+      </ul>
+      <button type="button" class="btn btn-secondary btn-block theme-toggle" data-theme-toggle aria-label="Toggle color theme" aria-pressed="false">
+        {% icon 'moon' 'icon icon-moon' %}{% icon 'sun' 'icon icon-sun' %}
+        <span>Toggle theme</span>
+      </button>
     </nav>
 
-    <ul class="sidenav" id="mobile-demo">
-      <li><a href="{% url 'manager:index' %}">Home</a></li>
-      {% if user.is_authenticated %}
-      <li><a href="{% url 'manager:secrets' %}">Secrets</a></li>
-      {% if perms.auth.add_user %}
-      <li><a href="{% url 'users:register' %}">Register</a></li>
-      {% endif %}
-      <li><a href="{% url 'users:logout' %}">Log out</a></li>
-      {% else %}
-      <li><a href="{% url 'users:login' %}">Log in</a></li>
-      {% endif %}
-    </ul>
-    <div class="container">
+    <header class="topbar">
+      <button type="button" class="btn btn-icon btn-icon--plain topbar__menu-btn" data-sidenav-toggle aria-label="Open menu">
+        {% icon 'menu' %}
+      </button>
+      {% block nav-title %}
+      <a href="{% url 'manager:index' %}" class="topbar__brand">
+        {% icon 'lock' 'icon icon-lg' %}
+        <span>The Vault</span>
+      </a>
+      {% endblock %}
+
+      {% block nav-extra-content %}{% endblock %}
+
+      <div class="topbar__nav">
+        <a href="{% url 'manager:index' %}">Home</a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'manager:secrets' %}">Secrets</a>
+        {% if perms.auth.add_user %}
+        <a href="{% url 'users:register' %}">Register</a>
+        {% endif %}
+        <a href="{% url 'users:logout' %}">Log out</a>
+        {% else %}
+        <a href="{% url 'users:login' %}">Log in</a>
+        {% endif %}
+        <button type="button" class="btn btn-icon theme-toggle" data-theme-toggle aria-label="Toggle color theme" aria-pressed="false">
+          {% icon 'moon' 'icon icon-moon' %}{% icon 'sun' 'icon icon-sun' %}
+        </button>
+      </div>
+    </header>
+
+    <main class="page">
       {% block content %}{% endblock content %}
       {% block content-script %}{% endblock content-script %}
-    </div>
+    </main>
 
-    {% block sidenav_javascript %}
-    <script>
-    $(document).ready(function(){
-      $('.sidenav').sidenav();
-    });
-    </script>
-    {% endblock sidenav_javascript %}
+    <div class="toast" data-toast role="status" aria-live="polite"></div>
+
+    <script src="{% static 'js/app.js' %}" defer></script>
+    {% block extra_scripts %}{% endblock %}
   </body>
 </html>
-
-
-
-
