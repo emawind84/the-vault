@@ -624,7 +624,6 @@ p {
 /* ---------- Table ---------- */
 
 .table-wrap {
-  overflow-x: auto;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface);
@@ -651,6 +650,7 @@ table.data-table td {
   padding: var(--space-3) var(--space-4);
   border-bottom: 1px solid var(--border);
   color: var(--text);
+  overflow-wrap: anywhere;
 }
 
 table.data-table tbody tr:last-child td {
