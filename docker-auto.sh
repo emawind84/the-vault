@@ -134,7 +134,7 @@ elif [ "$1" == "vault-renew" ]; then
 
 elif [ "$1" == "vault-cmd" ]; then
     shift
-    docker-compose $CONF_ARG exec vault vault "$@"
+    docker-compose $CONF_ARG exec -e VAULT_TOKEN="$VAULT_TOKEN" vault vault "$@"
     exit 0
 
 elif [ "$1" == "flush" ]; then
