@@ -1,17 +1,20 @@
 {% extends "manager/base.html" %}
-{% load material_form %}
+{% load icons %}
 
 {% block content %}
-<div class="section">
-    <p class="flow-text center">Hello, {{user.username}}.</p>
-</div>
-<div class="section center">
-    <a href="{% url 'users:edit_user' %}" class="waves-effect waves-teal btn-flat">My information</a>
+<div class="page--narrow center">
+  <h1 class="mb-2">Hello, {{ user.username }}.</h1>
+  <p class="text-muted mb-5">Manage your credentials securely with The Vault.</p>
+
+  <div class="row-actions row-actions--center">
+    <a href="{% url 'users:edit_user' %}" class="btn btn-secondary">{% icon 'user' %} My information</a>
     {% if user.password %}
-    <a href="{% url 'users:password_change' %}" class="waves-effect waves-teal btn-flat">Change my password</a>
+    <a href="{% url 'users:password_change' %}" class="btn btn-secondary">{% icon 'lock' %} Change my password</a>
     {% endif %}
-</div>
-<div class="section center">
-  <a class="btn-floating btn-large waves-effect waves-light" href="{% url 'manager:new_secret' %}" ><i class="material-icons">add</i></a>
+  </div>
+
+  <a class="btn btn-primary btn-fab" href="{% url 'manager:new_secret' %}" aria-label="Add a new secret">
+    {% icon 'plus' %}
+  </a>
 </div>
 {% endblock content %}
