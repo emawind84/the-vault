@@ -16,14 +16,28 @@
           <a href="{% url 'users:password_reset' %}">Forgot your password?</a>
         </div>
       </div>
-      <div class="card__footer">
-        <button name="_submit" class="btn btn-primary">{% icon 'log-in' %} Log in</button>
-        <p class="flow-text center">or<br/>log in with the following provider</p>
-        <div class="section">
-          <p class="center"><a class="waves-effect waves-light btn btn-block btn-social btn-google" href="{% url 'social:begin' 'google-oauth2' %}"><span class="fa fa-google"></span> Google</a></p>
-          <!--<p class="center"><a class="waves-effect waves-light btn btn-block btn-social btn-github " href="{% url 'social:begin' 'github' %}"><span class="fa fa-github"></span> GitHub</a></p>
-          <p class="center"><a class="waves-effect waves-light btn btn-block grey darken-4 amber-text" href="{% url 'social:begin' 'kakao' %}">Kakao</a></p>-->
-        </div>
+      <div class="card__footer card__footer--stacked">
+        <button name="_submit" class="btn btn-primary btn-block">{% icon 'log-in' %} Log in</button>
+        <div class="auth-divider"><span>or</span></div>
+        <a class="btn btn-secondary btn-block auth-provider auth-provider--google" href="{% url 'social:begin' 'google-oauth2' %}">
+          <span class="auth-provider__icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" role="img" aria-hidden="true">
+              <path fill="#EA4335" d="M24 9.5c3.5 0 6.7 1.2 9.1 3.7l6.8-6.8C35.6 2.4 30.3 0 24 0 14.7 0 6.9 5.4 2.7 13.3l7.9 6.1C12.3 14.5 17.5 9.5 24 9.5z"></path>
+              <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v8.6h12.7c-.5 2.8-2.1 5.2-4.5 6.8l7.3 5.6c4.3-3.9 6.9-9.7 6.9-16.5z"></path>
+              <path fill="#FBBC05" d="M32.2 35.9c-1.9 1.3-4.4 2.1-8.2 2.1-6.5 0-12-4.3-13.9-10l-7.9 6.1C4.1 41.9 13.1 48 24 48c7.5 0 13.8-2.5 18.5-6.7l-10.3-5.4z"></path>
+              <path fill="#34A853" d="M11.9 27.9c-.5-1.5-.8-3.1-.8-4.9s.3-3.4.8-4.9l-7.9-6.1C2.3 13.2 1.5 15.6 1.5 18.5S2.3 23.8 4 26l7.9-6.1z"></path>
+            </svg>
+          </span>
+          Continue with Google
+        </a>
+        <a class="btn btn-secondary btn-block auth-provider auth-provider--github is-hidden" href="{% url 'social:begin' 'github' %}">
+          <span class="auth-provider__icon auth-provider__icon--brand auth-provider__icon--github" aria-hidden="true">G</span>
+          Continue with GitHub
+        </a>
+        <a class="btn btn-secondary btn-block auth-provider auth-provider--kakao is-hidden" href="{% url 'social:begin' 'kakao' %}">
+          <span class="auth-provider__icon auth-provider__icon--brand auth-provider__icon--kakao" aria-hidden="true">K</span>
+          Continue with Kakao
+        </a>
       </div>
     </form>
   </div>
