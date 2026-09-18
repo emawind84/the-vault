@@ -2,11 +2,11 @@ from django import forms
 from .models import Secret
 
 class SecretForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput, required=False)
+    password = forms.CharField(widget=forms.PasswordInput(render_value=True), required=False)
     notes = forms.CharField(widget=forms.Textarea(attrs={'cols': 80}), required=False)
     url = forms.CharField(required=False, label="Website")
     ip = forms.CharField(required=False, label="IP")
-    confirm_password=forms.CharField(widget=forms.PasswordInput(), required=False, label="Repeat password")
+    confirm_password=forms.CharField(widget=forms.PasswordInput(render_value=True), required=False, label="Repeat password")
     
     field_order = ['label', 'category', 'username', 'password', 'confirm_password', 'ip', 'url', 'config', 'notes', 'groups']
 

@@ -68,6 +68,12 @@ If you don't have a Vault token yet, see [Initializing Vault for the first time]
 
 Now you're ready to run the application:
 
+    python manage.py runserver
+
+This starts the dev server on `http://127.0.0.1:8000` by default (pass an address/port, e.g. `python manage.py runserver 0.0.0.0:8091`, to override).
+
+Alternatively, [pwd-manager-auto.sh](app/pwd-manager-auto.sh) wraps the same `manage.py runserver` call together with `migrate` and `collectstatic`, and listens on `0.0.0.0:8091` by default:
+
     ./pwd-manager-auto.sh
 
 ## Local development with Docker
