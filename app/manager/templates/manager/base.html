@@ -42,6 +42,9 @@
         {% if perms.auth.add_user %}
         <li><a href="{% url 'users:register' %}" data-sidenav-close>Register user</a></li>
         {% endif %}
+        {% if user.is_staff %}
+        <li><a href="{% url 'admin:index' %}" data-sidenav-close>Admin</a></li>
+        {% endif %}
         <li><a href="{% url 'users:logout' %}" data-sidenav-close>Log out</a></li>
         {% else %}
         <li><a href="{% url 'users:login' %}" data-sidenav-close>Log in</a></li>
@@ -72,6 +75,9 @@
         <a href="{% url 'manager:secrets' %}">Secrets</a>
         {% if perms.auth.add_user %}
         <a href="{% url 'users:register' %}">Register</a>
+        {% endif %}
+        {% if user.is_staff %}
+        <a href="{% url 'admin:index' %}">Admin</a>
         {% endif %}
         <a href="{% url 'users:logout' %}">Log out</a>
         {% else %}
